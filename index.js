@@ -5,6 +5,21 @@ const app = express();
 
 app.use(express.json());
 
+morgan.token('data', (req, res) => JSON.stringify(req.body) );
+
+const customResponse = morgan(function (tokens, req, res) {
+  return [
+    tokens.method(req, res),
+    tokens.url(req, res),
+    tokens.status(req, res),
+    tokens.res(req, res, 'content-length'), '-',
+    tokens['response-time'](req, res), 'ms',
+    tokens.data(req, res)
+  ].join(' ')
+});
+
+app.use(customResponse);
+
 let persons = [
   { 
     "id": 1,
@@ -83,5 +98,3 @@ const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
-morgan('tiny');
