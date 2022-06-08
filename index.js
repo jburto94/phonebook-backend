@@ -42,14 +42,23 @@ app.get('/api/persons/:id', (req, res) => {
 
 app.post('/api/persons', (req, res) => {
   const body = req.body;
-  console.log(body);
-  const newId = Math.random(100000000);
+  const newId = Math.round(Math.random(100000000) * 100000000);
 
   const person = {
     id: newId,
     name: body.name,
     number: body.number
   };
+
+  if (!(person.name && person.number)) {
+    return res.status(400).json({
+      "error": "name and number are required"
+    })
+  } else if (persons.find(p => p.name === person.name)) {
+    return res.status(406).json({
+      "error": "name must be unique"
+    })
+  }
 
   persons = persons.concat(person);
   res.json(person);
