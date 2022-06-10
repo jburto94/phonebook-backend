@@ -70,14 +70,18 @@ app.put('/api/persons/:id', (req, res, next) => {
 
 app.delete('/api/persons/:id', (req, res, next) => {
   Person.findByIdAndDelete(req.params.id)
-    .then(result => res.status(204).end())
+    .then(() => res.status(204).end())
     .catch(err => next(err));
 });
 
-app.get('/info', (req, res) => {
-  const message = `Phonebook has info for ${persons.length} people`;
-  const date = String(new Date());
-  res.send(`${message} <br> ${date}`);
+app.get('/info', (req, res, err) => {
+  const time = new Date();
+
+  Person.find({})
+    .then(persons => {
+      res.send(`Phonebook has info for ${persons.length} people <br> ${time}`)
+    })
+    .catch(err => next(err))
 });
 
 const unknownEndpoint = (req, res) => {
