@@ -69,7 +69,7 @@ app.delete('/api/persons/:id', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/info', (req, res, err) => {
+app.get('/info', (req, res, next) => {
   const time = new Date();
 
   Person.find({})

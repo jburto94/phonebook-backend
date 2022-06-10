@@ -40,10 +40,10 @@ mongoose
       });
 
       person.save()
-      .then(() => {
-        console.log(`added ${person.name} number ${person.number} to phonebook`);
-        return mongoose.connection.close();
-      })
+        .then(() => {
+          console.log(`added ${person.name} number ${person.number} to phonebook`);
+          return mongoose.connection.close();
+        })
     }
   })
   .catch(err => console.log(err));
