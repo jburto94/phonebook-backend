@@ -39,7 +39,7 @@ app.get('/api/persons/:id', (req, res, next) => {
 app.post('/api/persons', (req, res, next) => {
   const body = req.body;
 
-  if (Person.find({ name: body.name })) {
+  if (Person.findoNE({ 'name': body.name })) {
     return res.status(400).json({ error: 'no duplicate names' })
   }
 
